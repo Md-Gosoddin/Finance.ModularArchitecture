@@ -4,4 +4,8 @@
     <ProjectReference Include="..\..\Evently.Module.User.Application\Evently.Module.User.Application.csproj" />
     <ProjectReference Include="..\Evently.Module.User.Presentation\Evently.Module.User.Presentation.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+	</ItemGroup>
 </Project>
