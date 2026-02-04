@@ -1,5 +1,4 @@
 ﻿namespace BuildingBlock.Application;
-public class ApplicationConfiguration
+public static class ApplicationConfiguration
 {
-
 }
