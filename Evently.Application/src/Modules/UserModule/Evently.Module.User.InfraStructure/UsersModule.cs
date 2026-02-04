@@ -19,7 +19,7 @@ public static class UsersModule
     {
         services.AddDbContext<UsersDbContext>((sp, options) =>
         options.UseNpgsql(configuration.GetConnectionString("Database"), npgsqlOptions =>
-        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client));
+        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client)));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
 
