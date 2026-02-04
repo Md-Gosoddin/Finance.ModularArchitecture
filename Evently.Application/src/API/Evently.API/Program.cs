@@ -1,8 +1,9 @@
+using System.Reflection;
+using BuildingBlock.Application;
 using BuildingBlock.InfraStructure;
 using BuildingBlock.Presentation.Endpoint;
 using Evently.API.Extensions;
 using Evently.Module.User.InfraStructure;
-
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,13 @@ builder.Configuration.AddModuleConfiguration(["users", "events", "ticketing", "a
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 builder.Services.AddInfrastructure(databaseConnectionString);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks().AddNpgSql(databaseConnectionString);
+
+Assembly[] moduleApplicationAssemblies = [
+    Evently.Module.User.Application.AssemblyReference.Assembly,
+    ];
+builder.Services.AddApplication(moduleApplicationAssemblies);
+
 builder.Services.AddUsersModule(builder.Configuration);
 
 
@@ -27,6 +35,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
+
 }
 app.MapEndpoints();
 
