@@ -1,5 +1,6 @@
 ﻿using Evently.Module.User.Application.Repositry;
 using Evently.Module.User.InfraStructure.Database;
+using Evently.Module.User.InfraStructure.UserBusiness;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -18,10 +19,11 @@ public static class UsersModule
     {
         services.AddDbContext<UsersDbContext>((sp, options) =>
         options.UseNpgsql(configuration.GetConnectionString("Database"), npgsqlOptions =>
-        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users));
+        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+
+        services.AddScoped<IUserRepository, UserRepository>();
+
     }
-
-
 }
