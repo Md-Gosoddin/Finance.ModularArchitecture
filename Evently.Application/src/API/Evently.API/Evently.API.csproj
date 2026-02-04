@@ -13,7 +13,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\BuildingBlock\BuildingBlock.InfraStructure\BuildingBlock.InfraStructure.csproj" />
-	  <ProjectReference Include="..\..\BuildingBlock\BuildingBlock.Presentation\BuildingBlock.Presentation.csproj" />
 	  <ProjectReference Include="..\..\Modules\UserModule\Evently.Module.User.InfraStructure\Evently.Module.User.InfraStructure.csproj" />
 	</ItemGroup>
 
