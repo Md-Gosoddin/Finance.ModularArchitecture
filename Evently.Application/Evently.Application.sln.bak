@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserModule", "UserModule", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Module.User.Domain", "src\Modules\UserModule\Evently.Module.User.Domain\Evently.Module.User.Domain.csproj", "{28195FFF-EDC9-4672-8507-F35D4A026DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Module.User.Application", "src\Modules\UserModule\Evently.Module.User.Application\Evently.Module.User.Application.csproj", "{A5435E34-0E33-416C-820E-40609CAEC9B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Module.User.Application", "src\Modules\Evently.Module.User.Application\Evently.Module.User.Application.csproj", "{A5435E34-0E33-416C-820E-40609CAEC9B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Module.User.InfraStructure", "src\Modules\UserModule\Evently.Module.User.InfraStructure\Evently.Module.User.InfraStructure.csproj", "{C8A8C10F-43FB-42AD-AA10-6168E8B7DDE6}"
 EndProject

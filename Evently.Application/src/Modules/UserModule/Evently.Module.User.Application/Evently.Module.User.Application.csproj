@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock.Application\BuildingBlock.Application.csproj" />
+    <ProjectReference Include="..\Evently.Module.User.Domain\Evently.Module.User.Domain.csproj" />
+  </ItemGroup>
+</Project>
