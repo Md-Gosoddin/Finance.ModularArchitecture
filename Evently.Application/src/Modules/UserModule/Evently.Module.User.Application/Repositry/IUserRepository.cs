@@ -3,6 +3,7 @@
 namespace Evently.Module.User.Application.Repositry;
 public interface IUserRepository
 {
+    Task<ICollection<ClientModules>> GetDat(CancellationToken cancellationToken);
     Task<ClientModules?> GetAsync(Guid id, CancellationToken cancellationToken = default);
     void Insert(ClientModules user);
 }

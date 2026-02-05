@@ -16,4 +16,10 @@ internal sealed class UserRepository(UsersDbContext usersDbContext) : IUserRepos
         return await usersDbContext.Users.SingleOrDefaultAsync(u => u.ClientGuid == id, cancellationToken);
 
     }
+
+    public async Task<ICollection<ClientModules>> GetDat(CancellationToken cancellationToken)
+    {
+        List<ClientModules> users = await usersDbContext.Users.AsNoTracking().ToListAsync(cancellationToken);
+        return users;
+    }
 }

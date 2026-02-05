@@ -7,23 +7,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-
 namespace Evently.Module.User.Presentation.UserRepositry;
-internal sealed class CreateUserCommandHadlerRequest : IEndpoint
+internal sealed class GetClientDataQueryHandleRequest : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("client/create", async (ClintData data, ISender sender) =>
+        app.MapGet("clientyDat", async (ISender sender) =>
         {
-            Result<CommandHandlerResponse> @event = await sender.Send(new CreateCommnadHandlerRequest(data.username, data.email, data.identity));
+            Result<ClientData> @event = await sender.Send(new GetClientDataRequest());
             return @event.Match(Results.Ok, ApiResults.Problem);
         }).WithTags(Tags.client);
     }
-}
-
-public class ClintData
-{
-    public string username { get; set; }
-    public string email { get; set; }
-    public string identity { get; set; }
 }
