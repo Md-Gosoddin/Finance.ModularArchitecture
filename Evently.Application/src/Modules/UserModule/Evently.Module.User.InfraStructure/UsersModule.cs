@@ -1,4 +1,5 @@
-﻿using Evently.Module.User.Application.Repositry;
+﻿using BuildingBlock.Presentation.Endpoint;
+using Evently.Module.User.Application.Repositry;
 using Evently.Module.User.InfraStructure.Database;
 using Evently.Module.User.InfraStructure.UserBusiness;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +23,7 @@ public static class UsersModule
         npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client)));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
-
         services.AddScoped<IUserRepository, UserRepository>();
-
+        services.AddEndpoints(Presentation.AssemblyReference.Assembly);
     }
 }
