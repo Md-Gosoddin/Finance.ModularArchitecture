@@ -12,7 +12,7 @@ internal sealed class GetClientDataQueryHandleRequest : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("clientyDat", async (ISender sender) =>
+        app.MapGet("GetclientData", async (ISender sender) =>
         {
             Result<ClientData> @event = await sender.Send(new GetClientDataRequest());
             return @event.Match(Results.Ok, ApiResults.Problem);
