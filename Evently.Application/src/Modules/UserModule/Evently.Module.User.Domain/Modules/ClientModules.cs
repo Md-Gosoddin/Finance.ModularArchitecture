@@ -10,12 +10,14 @@ public sealed class ClientModules : Entity
     public string Email { get; set; }
     public string IdentityId { get; private set; }
 
-    public static ClientModules Create(Guid userId, string email)
+    public static ClientModules Create(string username, string email, string identity)
     {
         var @event = new ClientModules
         {
-            ClientGuid = userId,
-            Email = email
+            ClientGuid = Guid.NewGuid(),
+            Email = email,
+            UserName = username,
+            IdentityId = identity
         };
 
         @event.Raise(new UserRegisteredDomainEvent(@event.ClientGuid));
