@@ -5,6 +5,8 @@ using BuildingBlock.Presentation.Endpoint;
 using Evently.API.Extensions;
 using Evently.API.Middleware;
 using Evently.Module.User.InfraStructure;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -23,7 +25,7 @@ builder.Configuration.AddModuleConfiguration(["users", "events", "ticketing", "a
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 builder.Services.AddInfrastructure(databaseConnectionString);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHealthChecks().AddNpgSql(databaseConnectionString);
+builder.Services.AddHealthChecks().AddNpgSql(databaseConnectionString); //Health check
 
 Assembly[] moduleApplicationAssemblies = [
     Evently.Module.User.Application.AssemblyReference.Assembly,
@@ -44,6 +46,10 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 
 }
+app.MapHealthChecks("health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 app.UseExceptionHandler();
 app.MapEndpoints();
 
