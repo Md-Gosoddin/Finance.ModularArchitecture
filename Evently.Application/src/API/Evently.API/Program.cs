@@ -3,6 +3,7 @@ using BuildingBlock.Application;
 using BuildingBlock.InfraStructure;
 using BuildingBlock.Presentation.Endpoint;
 using Evently.API.Extensions;
+using Evently.API.Middleware;
 using Evently.Module.User.InfraStructure;
 using Serilog;
 
@@ -16,8 +17,8 @@ builder.Services.AddSwaggerGen(options =>
     options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
 });
 builder.Host.UseSerilog((context, logconfig) => logconfig.ReadFrom.Configuration(context.Configuration));
-
-
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Configuration.AddModuleConfiguration(["users", "events", "ticketing", "attendance"]);
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 builder.Services.AddInfrastructure(databaseConnectionString);
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 
 }
+app.UseExceptionHandler();
 app.MapEndpoints();
 
 app.Run();
