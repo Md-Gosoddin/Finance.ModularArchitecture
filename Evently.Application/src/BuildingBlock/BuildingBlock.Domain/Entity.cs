@@ -2,15 +2,15 @@
 public abstract class Entity : IDomainEvent
 {
     public readonly List<IDomainEvent> _events = [];
-    private IReadOnlyCollection<IDomainEvent> _domainEvent => _events.ToList();
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _events.ToList();
 
     protected void Raise(IDomainEvent domainEvent)
     {
         _events.Add(domainEvent);
     }
-    public void RemoveEvent(IDomainEvent domainEvent)
+    public void RemoveEvent()
     {
-        _events.Remove(domainEvent);
+        _events.Clear();
     }
     public Guid GuidId { get; set; }
     public DateTime CreatedateTime { get; set; }

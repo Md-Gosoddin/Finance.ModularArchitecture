@@ -2,6 +2,7 @@
 using BuildingBlock.Application.Data;
 using BuildingBlock.InfraStructure.clock;
 using BuildingBlock.InfraStructure.Data;
+using BuildingBlock.InfraStructure.outbox;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
@@ -21,6 +22,7 @@ public static class InfrastructureConfiguration
         #region Dependency
         services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
         services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.TryAddSingleton<InsertOutboxMessagesInterceptor>();
         #endregion
 
         return services;

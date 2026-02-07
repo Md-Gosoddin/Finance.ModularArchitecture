@@ -1,4 +1,5 @@
-﻿using BuildingBlock.Presentation.Endpoint;
+﻿using BuildingBlock.InfraStructure.outbox;
+using BuildingBlock.Presentation.Endpoint;
 using Evently.Module.User.Application.Repositry;
 using Evently.Module.User.InfraStructure.Database;
 using Evently.Module.User.InfraStructure.UserBusiness;
@@ -20,7 +21,8 @@ public static class UsersModule
     {
         services.AddDbContext<UsersDbContext>((sp, options) =>
         options.UseNpgsql(configuration.GetConnectionString("Database"), npgsqlOptions =>
-        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client)));
+        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client))
+         .AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
         services.AddScoped<IUserRepository, UserRepository>();
