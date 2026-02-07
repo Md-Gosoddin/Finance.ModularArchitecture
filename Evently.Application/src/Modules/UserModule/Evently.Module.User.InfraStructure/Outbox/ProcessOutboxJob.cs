@@ -80,11 +80,11 @@ internal sealed class ProcessOutboxJob(
         string sql =
             $"""
              SELECT
-                id AS {nameof(OutboxMessageResponse.Id)},
-                content AS {nameof(OutboxMessageResponse.Content)}
-             FROM users.outbox_messages
-             WHERE processed_on_utc IS NULL
-             ORDER BY occurred_on_utc
+                "Id" AS {nameof(OutboxMessageResponse.Id)},
+                "Content" AS {nameof(OutboxMessageResponse.Content)}
+             FROM "Client".outbox_messages
+             WHERE "ProcessedOnUtc" IS NULL
+             ORDER BY "OccurredOnUtc"
              LIMIT {outboxOptions.Value.BatchSize}
              FOR UPDATE
              """;
@@ -101,7 +101,7 @@ internal sealed class ProcessOutboxJob(
     {
         const string sql =
             """
-            UPDATE users.outbox_messages
+            UPDATE Client.outbox_messages
             SET processed_on_utc = @ProcessedOnUtc,
                 error = @Error
             WHERE id = @Id
