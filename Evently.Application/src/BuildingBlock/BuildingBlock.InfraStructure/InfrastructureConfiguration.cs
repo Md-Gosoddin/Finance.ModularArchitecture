@@ -6,6 +6,7 @@ using BuildingBlock.InfraStructure.outbox;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using Quartz;
 
 namespace BuildingBlock.InfraStructure;
 public static class InfrastructureConfiguration
@@ -18,6 +19,12 @@ public static class InfrastructureConfiguration
         NpgsqlDataSource npgsqlDataSource = new NpgsqlDataSourceBuilder(databaseConnectionString).Build();
         services.TryAddSingleton(npgsqlDataSource);
         #endregion
+
+        #region Quartz Services
+        services.AddQuartz();
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+        #endregion
+
 
         #region Dependency
         services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();

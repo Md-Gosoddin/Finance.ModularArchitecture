@@ -2,6 +2,7 @@
 using BuildingBlock.Presentation.Endpoint;
 using Evently.Module.User.Application.Repositry;
 using Evently.Module.User.InfraStructure.Database;
+using Evently.Module.User.InfraStructure.Outbox;
 using Evently.Module.User.InfraStructure.UserBusiness;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -25,7 +26,10 @@ public static class UsersModule
          .AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+        services.AddEndpoints(Presentation.AssemblyReference.Assembly);
         services.AddScoped<IUserRepository, UserRepository>();
+        services.Configure<OutboxOptions>(configuration.GetSection("Users:Outbox"));
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
         services.AddEndpoints(Presentation.AssemblyReference.Assembly);
     }
 }
