@@ -26,28 +26,44 @@ internal sealed class IdempotentDomainEventHandler<TDomainEvent>(IDomainEventHan
     private static async Task<bool> OutboxConsumerExistsAsync(DbConnection dbConnection,
                                                     OutboxMessageConsumer outboxMessageConsumer)
     {
-        const string sql =
-            """
+        try
+        {
+            const string sql =
+                       """
             SELECT EXISTS(
                 SELECT 1
-                FROM users.outbox_message_consumers
+                FROM "Client".outbox_message_consumers
                 WHERE outbox_message_id = @OutboxMessageId AND
                       name = @Name
             )
             """;
-
-        return await dbConnection.ExecuteScalarAsync<bool>(sql, outboxMessageConsumer);
+            bool resl = await dbConnection.ExecuteScalarAsync<bool>(sql, outboxMessageConsumer);
+            return resl;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return false;
+        }
     }
 
     private static async Task InsertOutboxConsumerAsync(DbConnection dbConnection,
                                                  OutboxMessageConsumer outboxMessageConsumer)
     {
-        const string sql =
-            """
-            INSERT INTO users.outbox_message_consumers(outbox_message_id, name)
+        try
+        {
+            const string sql =
+                """
+            INSERT INTO "Client".outbox_message_consumers(outbox_message_id, name)
             VALUES (@OutboxMessageId, @Name)
             """;
+            int res = await dbConnection.ExecuteAsync(sql, outboxMessageConsumer);
+            Console.WriteLine(res);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
 
-        await dbConnection.ExecuteAsync(sql, outboxMessageConsumer);
+        }
     }
 }

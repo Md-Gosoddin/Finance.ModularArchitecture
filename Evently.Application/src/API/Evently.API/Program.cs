@@ -6,6 +6,7 @@ using Evently.API.Extensions;
 using Evently.API.Middleware;
 using Evently.Module.User.InfraStructure;
 using HealthChecks.UI.Client;
+using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
@@ -23,7 +24,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Configuration.AddModuleConfiguration(["users", "events", "ticketing", "attendance"]);
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
-builder.Services.AddInfrastructure(databaseConnectionString);
+builder.Services.AddInfrastructure(Array.Empty<Action<IRegistrationConfigurator>>(), databaseConnectionString);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks().AddNpgSql(databaseConnectionString); //Health check
 

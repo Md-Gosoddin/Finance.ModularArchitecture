@@ -26,7 +26,8 @@ public static class UsersModule
         services.AddDbContext<UsersDbContext>((sp, options) =>
         options.UseNpgsql(configuration.GetConnectionString("Database"), npgsqlOptions =>
         npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Client))
-         .AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
+         .AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>())
+         .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
         services.AddEndpoints(Presentation.AssemblyReference.Assembly);
@@ -37,22 +38,6 @@ public static class UsersModule
     }
     private static void AddDomainEventHandlers(this IServiceCollection services)
     {
-
-#pragma warning disable S1481 // Unused local variables should be removed
-        Type[] allTypes = Application.AssemblyReference.Assembly.GetTypes();
-        Console.WriteLine($"Total types found in assembly: {allTypes.Length}");
-
-        foreach (Type? type in allTypes.Where(t => t.Name.Contains("Handler")))
-        {
-            Type[] interfaces = type.GetInterfaces();
-            Console.WriteLine($"Type: {type.Name}");
-            foreach (Type @interface in interfaces)
-            {
-                Console.WriteLine($" - Implements: {@interface.Name} (Generic: {@interface.IsGenericType})");
-            }
-        }
-#pragma warning restore S1481 // Unused local variables should be removed
-
         Type[] domainEventHandlers = Application.AssemblyReference.Assembly
             .GetTypes()
             .Where(t => t.IsAssignableTo(typeof(IDomainEventHandler)))

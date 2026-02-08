@@ -2,5 +2,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock.Application\BuildingBlock.Application.csproj" />
     <ProjectReference Include="..\Evently.Module.User.Domain\Evently.Module.User.Domain.csproj" />
+    <ProjectReference Include="..\Evently.Module.User.IntegrationEvents\Evently.Module.User.IntegrationEvents.csproj" />
   </ItemGroup>
 </Project>

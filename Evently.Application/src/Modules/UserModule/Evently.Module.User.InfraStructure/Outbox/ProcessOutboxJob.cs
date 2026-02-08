@@ -77,45 +77,60 @@ internal sealed class ProcessOutboxJob(
         IDbConnection connection,
         IDbTransaction transaction)
     {
-        string sql =
-            $"""
+        try
+        {
+            string sql =
+                      $"""
              SELECT
-                "Id" AS {nameof(OutboxMessageResponse.Id)},
-                "Content" AS {nameof(OutboxMessageResponse.Content)}
+                id AS {nameof(OutboxMessageResponse.Id)},
+                content AS {nameof(OutboxMessageResponse.Content)}
              FROM "Client".outbox_messages
-             WHERE "ProcessedOnUtc" IS NULL
-             ORDER BY "OccurredOnUtc"
+             WHERE processed_on_utc IS NULL
+             ORDER BY occurred_on_utc
              LIMIT {outboxOptions.Value.BatchSize}
              FOR UPDATE
              """;
 
-        IEnumerable<OutboxMessageResponse> outboxMessages = await connection.QueryAsync<OutboxMessageResponse>(
-            sql,
-            transaction: transaction);
+            IEnumerable<OutboxMessageResponse> outboxMessages = await connection.QueryAsync<OutboxMessageResponse>(
+                sql,
+                transaction: transaction);
 
-        return outboxMessages.ToList();
+            return outboxMessages.ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return null;
+        }
     }
 
     private async Task UpdateOutboxMessageAsync(IDbConnection connection, IDbTransaction transaction,
                                                 OutboxMessageResponse outboxMessage, Exception? exception)
     {
-        const string sql =
-            """
-            UPDATE Client.outbox_messages
+        try
+        {
+            const string sql =
+                 """
+            UPDATE "Client".outbox_messages
             SET processed_on_utc = @ProcessedOnUtc,
                 error = @Error
             WHERE id = @Id
             """;
 
-        await connection.ExecuteAsync(
-            sql,
-            new
-            {
-                outboxMessage.Id,
-                ProcessedOnUtc = dateTimeProvider.Utcnow,
-                Error = exception?.ToString()
-            },
-            transaction: transaction);
+            await connection.ExecuteAsync(
+                sql,
+                new
+                {
+                    outboxMessage.Id,
+                    ProcessedOnUtc = dateTimeProvider.Utcnow,
+                    Error = exception?.ToString()
+                },
+                transaction: transaction);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
     }
 
     internal sealed record OutboxMessageResponse(Guid Id, string Content);
