@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock.InfraStructure\BuildingBlock.InfraStructure.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock.Presentation\BuildingBlock.Presentation.csproj" />
     <ProjectReference Include="..\Evently.Module.Consumer.Application\Evently.Module.Consumer.Application.csproj" />
     <ProjectReference Include="..\Evently.Module.Consumer.Presentation\Evently.Module.Consumer.Presentation.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+	</ItemGroup>
 </Project>
