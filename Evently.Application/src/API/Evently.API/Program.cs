@@ -30,6 +30,7 @@ builder.Services.AddHealthChecks().AddNpgSql(databaseConnectionString); //Health
 
 Assembly[] moduleApplicationAssemblies = [
     Evently.Module.User.Application.AssemblyReference.Assembly,
+    Evently.Module.Consumer.Application.AssemblyReference.Assembly,
     ];
 builder.Services.AddApplication(moduleApplicationAssemblies);
 
