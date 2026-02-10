@@ -1,0 +1,6 @@
+@Evently.API.GateWay_HostAddress = http://localhost:5014
+
+GET {{Evently.API.GateWay_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
